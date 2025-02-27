@@ -32,42 +32,35 @@
         let scene, camera, renderer, controls;
 
         function init() {
-            // Scene
             scene = new THREE.Scene();
 
-            // Camera
             camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.1, 1000);
-            camera.position.set(0, 2, 5); // Adjust position for better view
+            camera.position.set(0, 1, 8); // Adjust position for better view
 
-            // Renderer
             renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
-            // Light Setup
             const light = new THREE.DirectionalLight(0xffffff, 1);
             light.position.set(5, 5, 5);
             scene.add(light);
             scene.add(new THREE.AmbientLight(0x404040));
 
-            // Load Sony A6400 Model from assets folder
             const loader = new THREE.GLTFLoader();
             loader.load('https://raw.githubusercontent.com/SpwaN/3D/main/sony_a6400.glb', function(gltf) {
                 const model = gltf.scene;
-                model.scale.set(2, 2, 2); // Scale the model appropriately
+                model.scale.set(2, 2, 2);
                 scene.add(model);
             }, undefined, function(error) {
                 console.error('Error loading 3D model:', error);
             });
 
-            // Controls for Rotation
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true; 
             controls.dampingFactor = 0.05;
             controls.rotateSpeed = 0.5;
             controls.zoomSpeed = 1.2;
 
-            // Handle Window Resize
             window.addEventListener('resize', () => {
                 renderer.setSize(window.innerWidth, window.innerHeight);
                 camera.aspect = window.innerWidth / window.innerHeight;
